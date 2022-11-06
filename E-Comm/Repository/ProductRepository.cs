@@ -1,18 +1,19 @@
-﻿using E_Comm.Models;
-using E_Comm.Models.DBObjects;
+﻿using E_comm.Data;
+using E_comm.Models;
+using E_comm.Models.DBObjects;
 
-namespace E_Comm.Repository
+namespace E_comm.Repository
 {
     public class ProductRepository
     {
-        private readonly EcommContext _DbContext;
+        private readonly ApplicationDbContext _DbContext;
 
         public ProductRepository()
         {
-            _DbContext = new EcommContext();
+            _DbContext = new ApplicationDbContext();
         }
 
-        public ProductRepository(EcommContext dbContext)
+        public ProductRepository(ApplicationDbContext dbContext)
         {
             _DbContext = dbContext;
         }
@@ -21,7 +22,7 @@ namespace E_Comm.Repository
         {
             var model = new ProductModel();
 
-            if(dbObject != null)
+            if (dbObject != null)
             {
                 model.IdProduct = dbObject.IdProduct;
                 model.Title = dbObject.Title;
@@ -40,7 +41,7 @@ namespace E_Comm.Repository
         {
             var dbObject = new Product();
 
-            if(model != null)
+            if (model != null)
             {
                 dbObject.IdProduct = model.IdProduct;
                 dbObject.Title = model.Title;
@@ -69,7 +70,7 @@ namespace E_Comm.Repository
 
         public ProductModel GetProductById(Guid id)
         {
-            return MapDBObjectToModel(_DbContext.Products.FirstOrDefault(x =>  x.IdProduct == id));
+            return MapDBObjectToModel(_DbContext.Products.FirstOrDefault(x => x.IdProduct == id));
         }
 
         public void InsertProduct(ProductModel model)
@@ -82,6 +83,7 @@ namespace E_Comm.Repository
         public void UpdateProduct(ProductModel model)
         {
             var dbObject = _DbContext.Products.FirstOrDefault(x => x.IdProduct == model.IdProduct);
+
             if(dbObject != null)
             {
                 dbObject.IdProduct = model.IdProduct;
@@ -99,6 +101,7 @@ namespace E_Comm.Repository
         public void DeleteProduct(Guid id)
         {
             var dbObject = _DbContext.Products.FirstOrDefault(x => x.IdProduct == id);
+
             if( dbObject != null )
             {
                 _DbContext.Products.Remove(dbObject);

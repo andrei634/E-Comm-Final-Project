@@ -1,4 +1,4 @@
-using E_Comm.Data;
+using E_comm.Data;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 

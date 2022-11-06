@@ -1,18 +1,19 @@
-﻿using E_Comm.Models;
-using E_Comm.Models.DBObjects;
+﻿using E_comm.Data;
+using E_comm.Models;
+using E_comm.Models.DBObjects;
 
-namespace E_Comm.Repository
+namespace E_comm.Repository
 {
     public class ProductCartRepository
     {
-        private readonly EcommContext _DbContext;
+        private readonly ApplicationDbContext _DbContext;
 
         public ProductCartRepository()
         {
-            _DbContext = new EcommContext();
+            _DbContext = new ApplicationDbContext();
         }
 
-        public ProductCartRepository(EcommContext dbContext)
+        public ProductCartRepository(ApplicationDbContext dbContext)
         {
             _DbContext = dbContext;
         }
@@ -21,7 +22,7 @@ namespace E_Comm.Repository
         {
             var model = new ProductCartModel();
 
-            if(dbObject != null)
+            if (dbObject != null)
             {
                 model.IdProduct = dbObject.IdProduct;
                 model.IdCart = dbObject.IdCart;
@@ -35,7 +36,7 @@ namespace E_Comm.Repository
         {
             var dbObject = new ProductCart();
 
-            if(model != null)
+            if (model != null)
             {
                 dbObject.IdProduct = model.IdProduct;
                 dbObject.IdCart = model.IdCart;
@@ -47,14 +48,13 @@ namespace E_Comm.Repository
 
         public List<ProductCartModel> GetAllProductCart()
         {
-            var list = new List<ProductCartModel>(); 
-            foreach(var dbObject in _DbContext.ProductCarts)
+            var list = new List<ProductCartModel>();
+            foreach (var dbObject in _DbContext.ProductCarts)
             {
                 list.Add(MapDBObjectToModel(dbObject));
             }
 
             return list;
         }
-
     }
 }

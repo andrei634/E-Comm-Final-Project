@@ -1,4 +1,4 @@
-﻿namespace E_Comm.Models
+﻿namespace E_comm.Models
 {
     public class ProductModel
     {

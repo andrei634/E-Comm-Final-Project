@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
-namespace E_Comm.Controllers
+namespace E_comm.Controllers
 {
     public class CartController : Controller
     {

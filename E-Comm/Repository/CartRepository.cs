@@ -1,18 +1,19 @@
-﻿using E_Comm.Models;
-using E_Comm.Models.DBObjects;
+﻿using E_comm.Data;
+using E_comm.Models;
+using E_comm.Models.DBObjects;
 
-namespace E_Comm.Repository
+namespace E_comm.Repository
 {
     public class CartRepository
     {
-        private readonly EcommContext _DbContext;
+        private readonly ApplicationDbContext _DbContext;
 
         public CartRepository()
         {
-            _DbContext = new EcommContext();
+            _DbContext = new ApplicationDbContext();
         }
 
-        public CartRepository(EcommContext dbContext)
+        public CartRepository(ApplicationDbContext dbContext)
         {
             _DbContext = dbContext;
         }
@@ -21,9 +22,10 @@ namespace E_Comm.Repository
         {
             var model = new CartModel();
 
-            if(dbObject != null)
+            if (dbObject != null)
             {
                 model.IdCart = dbObject.IdCart;
+                model.IdUser = dbObject.IdUser;
             }
 
             return model;
@@ -33,9 +35,10 @@ namespace E_Comm.Repository
         {
             var dbObject = new Cart();
 
-            if(model != null)
+            if (model != null)
             {
                 dbObject.IdCart = model.IdCart;
+                dbObject.IdUser = model.IdUser;
             }
 
             return dbObject;
@@ -69,7 +72,7 @@ namespace E_Comm.Repository
         {
             var dbObject = _DbContext.Carts.FirstOrDefault(x => x.IdCart == model.IdCart);
 
-            if(dbObject != null)
+            if (dbObject != null)
             {
                 dbObject.IdCart = model.IdCart;
                 _DbContext.SaveChanges();
@@ -80,7 +83,7 @@ namespace E_Comm.Repository
         {
             var dbObject = _DbContext.Carts.FirstOrDefault(x => x.IdCart == id);
 
-            if( dbObject != null )
+            if (dbObject != null)
             {
                 _DbContext.Carts.Remove(dbObject);
                 _DbContext.SaveChanges();

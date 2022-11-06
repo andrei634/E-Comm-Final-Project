@@ -1,14 +1,24 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using E_comm.Data;
+using E_comm.Models;
+using E_comm.Repository;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
-namespace E_Comm.Controllers
+namespace E_comm.Controllers
 {
     public class ProductController : Controller
     {
+        private ProductRepository _productRepository;
+
+        public ProductController(ApplicationDbContext dbContext)
+        {
+            _productRepository = new ProductRepository(dbContext);
+        }
         // GET: ProductController
         public ActionResult Index()
         {
-            return View();
+            var productList = _productRepository.GetAllProducts();
+            return View(productList);
         }
 
         // GET: ProductController/Details/5
@@ -20,7 +30,7 @@ namespace E_Comm.Controllers
         // GET: ProductController/Create
         public ActionResult Create()
         {
-            return View();
+            return View("CreateProduct");
         }
 
         // POST: ProductController/Create
@@ -30,11 +40,19 @@ namespace E_Comm.Controllers
         {
             try
             {
+                var model = new ProductModel();
+                var task = TryUpdateModelAsync(model);
+                task.Wait();
+
+                if (task.Result)
+                {
+                    _productRepository.InsertProduct(model);
+                }
                 return RedirectToAction(nameof(Index));
             }
             catch
             {
-                return View();
+                return View("CreateProduct");
             }
         }
 

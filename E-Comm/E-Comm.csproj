@@ -4,8 +4,8 @@
     <TargetFramework>net6.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
-    <UserSecretsId>aspnet-E_Comm-615DE10F-BB04-4489-8F7A-590D95FE0A6E</UserSecretsId>
-    <RootNamespace>E_Comm</RootNamespace>
+    <UserSecretsId>aspnet-E_comm-6F350202-F588-420D-9788-22448C941BE7</UserSecretsId>
+    <RootNamespace>E_comm</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
@@ -18,10 +18,7 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="6.0.10" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Models\DBObjects\" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.3.0" />
   </ItemGroup>
 
 </Project>

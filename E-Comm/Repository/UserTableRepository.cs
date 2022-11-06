@@ -1,18 +1,19 @@
-﻿using E_Comm.Models;
-using E_Comm.Models.DBObjects;
+﻿using E_comm.Data;
+using E_comm.Models;
+using E_comm.Models.DBObjects;
 
-namespace E_Comm.Repository
+namespace E_comm.Repository
 {
     public class UserTableRepository
     {
-        private readonly EcommContext _DbContext;
+        private readonly ApplicationDbContext _DbContext;
 
         public UserTableRepository()
         {
-            _DbContext = new EcommContext();
+            _DbContext = new ApplicationDbContext();
         }
 
-        public UserTableRepository(EcommContext dbContext)
+        public UserTableRepository(ApplicationDbContext dbContext)
         {
             _DbContext = dbContext;
         }

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace E_Comm.Models.DBObjects
+namespace E_comm.Models.DBObjects
 {
     public partial class Product
     {

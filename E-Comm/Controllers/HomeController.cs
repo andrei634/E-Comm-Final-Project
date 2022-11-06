@@ -1,8 +1,8 @@
-﻿using E_Comm.Models;
+﻿using E_comm.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 
-namespace E_Comm.Controllers
+namespace E_comm.Controllers
 {
     public class HomeController : Controller
     {

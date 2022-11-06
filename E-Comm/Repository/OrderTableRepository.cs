@@ -1,18 +1,19 @@
-﻿using E_Comm.Models;
-using E_Comm.Models.DBObjects;
+﻿using E_comm.Data;
+using E_comm.Models;
+using E_comm.Models.DBObjects;
 
-namespace E_Comm.Repository
+namespace E_comm.Repository
 {
     public class OrderTableRepository
     {
-        private readonly EcommContext _DbContext;
+        private readonly ApplicationDbContext _DbContext;
 
         public OrderTableRepository()
         {
-            _DbContext = new EcommContext();
+            _DbContext = new ApplicationDbContext();
         }
 
-        public OrderTableRepository(EcommContext dbContext)
+        public OrderTableRepository(ApplicationDbContext dbContext)
         {
             _DbContext = dbContext;
         }
@@ -23,7 +24,7 @@ namespace E_Comm.Repository
 
             if (dbObject != null)
             {
-                model.IdCart = dbObject.IdCart;
+                model.IdOrder = dbObject.IdOrder;
                 model.Date = dbObject.Date;
                 model.TotalPrice = dbObject.TotalPrice;
                 model.City = dbObject.City;
@@ -42,7 +43,7 @@ namespace E_Comm.Repository
 
             if (model != null)
             {
-                dbObject.IdCart = model.IdCart;
+                dbObject.IdOrder = model.IdOrder;
                 dbObject.Date = model.Date;
                 dbObject.TotalPrice = model.TotalPrice;
                 dbObject.City = model.City;
@@ -69,30 +70,30 @@ namespace E_Comm.Repository
 
         public OrderTableModel GetOrderById(Guid id)
         {
-            return MapDBObjectToModel(_DbContext.OrderTables.FirstOrDefault(x => x.IdCart == id));
+            return MapDBObjectToModel(_DbContext.OrderTables.FirstOrDefault(x => x.IdOrder == id));
         }
 
         public void InsertOrder(OrderTableModel model)
         {
-            model.IdCart = Guid.NewGuid();
+            model.IdOrder = Guid.NewGuid();
             _DbContext.OrderTables.Add(MapModelToDBObject(model));
             _DbContext.SaveChanges();
         }
 
         public void UpdateOrder(OrderTableModel model)
         {
-            var dbObject = _DbContext.OrderTables.FirstOrDefault(x => x.IdCart == model.IdCart);
+            var dbObject = _DbContext.OrderTables.FirstOrDefault(x => x.IdOrder == model.IdOrder);
 
             if (dbObject != null)
             {
-                dbObject.IdCart = model.IdCart;
+                dbObject.IdOrder = model.IdOrder;
                 _DbContext.SaveChanges();
             }
         }
 
         public void DeleteOrder(Guid id)
         {
-            var dbObject = _DbContext.OrderTables.FirstOrDefault(x => x.IdCart == id);
+            var dbObject = _DbContext.OrderTables.FirstOrDefault(x => x.IdOrder == id);
 
             if (dbObject != null)
             {
