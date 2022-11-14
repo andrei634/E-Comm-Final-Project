@@ -12,39 +12,41 @@
 @if (Model.ToArray().Length > 0)
 {
     <div class="container-cart">
-        <div class="container__main-cart" style="overflow-y: auto">
-            @foreach (var product in Model)
-            {
-                <div class="container__item-cart">
-                  <div class="container__item__image-cart">
-                    <img
-                      src=@product.ProductImage
-                      alt=@product.ProductTitle
-                      class="container__item__image--img-cart"
-                    />
-                  </div>
-                  <div class="container__item__description-cart">
-                    <h3 class="container__item__description--title-cart no-margin-cart">
-                      @product.ProductTitle
-                    </h3>
-                    <p class="container__item__description--price no-margin-cart">
-                      <span class="container__item__description--price-word-cart">Price: </span>
-                      <span class="container__item__description--price-value-cart"
-                        >@((@product.ProductPrice * @product.Quantity).ToString("c"))</span
-                      >
-                    </p>
-                    <div class="container__item__description__quantity-cart">
-                      <div class="container__item__description__quantity__field-cart">
-                         <span class="container__item__description--price-word-cart">Quantity: </span>
-                        <span class="container__item__description__quantity__field--input-cart">@product.Quantity</span>
+        <div class="container__main-cart">
+            <div style="overflow-y: auto">
+                @foreach (var product in Model)
+                {
+                    <div class="container__item-cart">
+                      <div class="container__item__image-cart">
+                        <img
+                          src=@product.ProductImage
+                          alt=@product.ProductTitle
+                          class="container__item__image--img-cart"
+                        />
                       </div>
-                      @Html.ActionLink("Edit", "Edit", new { id=product.IdProductCart }, new { @class = "container__item__description__quantity--remove-cart" })
-                      @Html.ActionLink("Delete", "Delete", new { id=product.IdProductCart }, new { @class="container__item__description__quantity--remove-cart" })
+                      <div class="container__item__description-cart">
+                        <h3 class="container__item__description--title-cart no-margin-cart">
+                          @product.ProductTitle
+                        </h3>
+                        <p class="container__item__description--price no-margin-cart">
+                          <span class="container__item__description--price-word-cart">Price: </span>
+                          <span class="container__item__description--price-value-cart"
+                            >@((@product.ProductPrice * @product.Quantity).ToString("c"))</span
+                          >
+                        </p>
+                        <div class="container__item__description__quantity-cart">
+                          <div class="container__item__description__quantity__field-cart">
+                             <span class="container__item__description--price-word-cart">Quantity: </span>
+                            <span class="container__item__description__quantity__field--input-cart">@product.Quantity</span>
+                          </div>
+                          @Html.ActionLink("Edit", "Edit", new { id=product.IdProductCart }, new { @class = "container__item__description__quantity--remove-cart" })
+                          @Html.ActionLink("Delete", "Delete", new { id=product.IdProductCart }, new { @class="container__item__description__quantity--remove-cart" })
+                        </div>
+                      </div>
                     </div>
-                  </div>
-                </div>
-
-            }
+                }
+            </div>
+            
             <div class="container__main__total-cart">
               <p class="container__main__total--word-cart">Total:</p>
                 <p class="container__main__total--price-cart">
@@ -57,6 +59,7 @@
                 asp-controller="OrderTable" asp-action="Create"
               >
                 <div class="float-left-cart">
+                    <ion-icon name="cart-outline" class="cart-icon-checkout">
                 </div>
                 Go to checkout
               </a>

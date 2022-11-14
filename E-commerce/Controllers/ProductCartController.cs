@@ -29,7 +29,7 @@ namespace E_commerce.Controllers
             var viewModelList = new List<ProductCartViewModel>();
             if (User.Identity.IsAuthenticated)
             {
-                var  email = User.Identity.Name.ToString();
+                var email = User.Identity.Name.ToString();
                 var user = _userTableRepository.GetUserByEmail(email);
                 var cart = _cartRepository.GetCartByUserId(user.IdUser);
                 var list = _productCartRepository.GetAllProductCartOfOneUser(cart.IdCart);
@@ -131,6 +131,15 @@ namespace E_commerce.Controllers
             }
 
             return totalPrice;
+        }
+
+        public List<ProductCartModel> GetAllProductCarts(string email)
+        {
+            var user = _userTableRepository.GetUserByEmail(email);
+            var cart = _cartRepository.GetCartByUserId(user.IdUser);
+            var list = _productCartRepository.GetAllProductCartOfOneUser(cart.IdCart);
+
+            return list;
         }
     }
 }
