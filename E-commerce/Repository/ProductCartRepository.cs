@@ -27,6 +27,7 @@ namespace E_commerce.Repository
                 model.IdProduct = dbObject.IdProduct;
                 model.IdCart = dbObject.IdCart;
                 model.Quantity = dbObject.Quantity;
+                model.IdProductCart = dbObject.IdProductCart;
             }
 
             return model;
@@ -41,6 +42,7 @@ namespace E_commerce.Repository
                 dbObject.IdProduct = model.IdProduct;
                 dbObject.IdCart = model.IdCart;
                 dbObject.Quantity = model.Quantity;
+                dbObject.IdProductCart = model.IdProductCart;
             }
 
             return dbObject;
@@ -55,6 +57,79 @@ namespace E_commerce.Repository
             }
 
             return list;
+        }
+
+        public List<ProductCartModel> GetAllProductCartOfOneUser(Guid id)
+        {
+            var list = new List<ProductCartModel>();
+            foreach (var dbObject in _DbContext.ProductCarts)
+            {
+                if (dbObject.IdCart == id)
+                {
+                    list.Add(MapDBObjectToModel(dbObject));
+                }
+            }
+
+            return list;
+        }
+
+        public ProductCartModel GetProductCartById(Guid id)
+        {
+            return MapDBObjectToModel(_DbContext.ProductCarts.FirstOrDefault(x => x.IdProductCart == id));
+        }
+
+        public void InsertProductInCart(ProductCartModel model)
+        {
+            model.IdProductCart = Guid.NewGuid();
+            _DbContext.ProductCarts.Add(MapModelToDBObject(model));
+            _DbContext.SaveChanges();
+        }
+
+        public void UpdateProductCart(ProductCartModel model)
+        {
+            var dbObject = _DbContext.ProductCarts.FirstOrDefault(x => x.IdProductCart == model.IdProductCart);
+
+            if(dbObject != null)
+            {
+                dbObject.IdProduct = model.IdProduct;
+                dbObject.IdCart = model.IdCart;
+                dbObject.Quantity = model.Quantity;
+                dbObject.IdProductCart = model.IdProductCart;
+                _DbContext.SaveChanges();
+            }
+        }
+
+        public void DeleteProductCart(Guid id)
+        {
+            var dbObject = _DbContext.ProductCarts.FirstOrDefault(x => x.IdProductCart == id);
+
+            if(dbObject != null )
+            {
+                _DbContext.ProductCarts.Remove(dbObject);
+                _DbContext.SaveChanges();
+            }
+        }
+
+        public void DeleteProductCart(Guid idProduct, Guid idCart)
+        {
+            var dbObject = _DbContext.ProductCarts.FirstOrDefault(x => x.IdProduct == idProduct && x.IdCart == idCart);
+
+            if(dbObject != null)
+            {
+                _DbContext.ProductCarts.Remove(dbObject);
+                _DbContext.SaveChanges();
+            }
+        }
+
+        public void DeleteAllProductCartForOneUser(Guid idCart)
+        {
+            var list = _DbContext.ProductCarts.Where(x => x.IdCart == idCart).ToList();
+
+            foreach(var item in list)
+            {
+                _DbContext.ProductCarts.Remove(item);
+            }
+            _DbContext.SaveChanges();
         }
     }
 }

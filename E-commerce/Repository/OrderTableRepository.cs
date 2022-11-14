@@ -68,6 +68,21 @@ namespace E_commerce.Repository
             return list;
         }
 
+        public List<OrderTableModel> GetAllOrdersOfOneUser(Guid id)
+        {
+            var list = new List<OrderTableModel>();
+
+            foreach(var dbObject in _DbContext.OrderTables)
+            {
+                if (dbObject.IdUser == id)
+                {
+                    list.Add(MapDBObjectToModel(dbObject));
+                }
+            }
+
+            return list;
+        }
+
         public OrderTableModel GetOrderById(Guid id)
         {
             return MapDBObjectToModel(_DbContext.OrderTables.FirstOrDefault(x => x.IdOrder == id));
@@ -75,7 +90,7 @@ namespace E_commerce.Repository
 
         public void InsertOrder(OrderTableModel model)
         {
-            model.IdOrder = Guid.NewGuid();
+            model.Date = DateTime.Now;
             _DbContext.OrderTables.Add(MapModelToDBObject(model));
             _DbContext.SaveChanges();
         }

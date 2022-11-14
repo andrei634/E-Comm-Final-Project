@@ -1,0 +1,48 @@
+﻿@model E_commerce.Models.ProductCartModel
+
+@{
+    ViewData["Title"] = "EditProductCart";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div class="row margin-left">
+    <h1>Edit quantity!</h1>
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group" hidden>
+                <label asp-for="IdProduct" class="control-label"></label>
+                <input asp-for="IdProduct" class="form-control" />
+                <span asp-validation-for="IdProduct" class="text-danger"></span>
+            </div>
+            <div class="form-group" hidden>
+                <label asp-for="IdCart" class="control-label"></label>
+                <input asp-for="IdCart" class="form-control" />
+                <span asp-validation-for="IdCart" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Quantity" class="control-label"></label>
+                <input asp-for="Quantity" class="form-control" />
+                <span asp-validation-for="Quantity" class="text-danger"></span>
+            </div>
+            @*<div class="form-group">
+                <label asp-for="IdProductCart" class="control-label"></label>
+                <input asp-for="IdProductCart" class="form-control" />
+                <span asp-validation-for="IdProductCart" class="text-danger"></span>
+            </div>*@
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+    <div>
+        <a asp-action="Index">Back to List</a>
+    </div>
+</div>
+
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

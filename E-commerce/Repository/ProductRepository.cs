@@ -68,7 +68,8 @@ namespace E_commerce.Repository
 
         public ProductModel GetProductById(Guid id)
         {
-            return MapDBObjectToModel(_DbContext.Products.FirstOrDefault(x => x.IdProduct == id));
+            var model = MapDBObjectToModel(_DbContext.Products.FirstOrDefault(x => x.IdProduct == id));
+            return model;
         }
 
         public void InsertProduct(ProductModel model)
@@ -101,6 +102,19 @@ namespace E_commerce.Repository
 
             if (dbObject != null)
             {
+                var productCartList = _DbContext.ProductCarts.Where(x => x.IdProduct == dbObject.IdProduct).ToList();
+
+                foreach(var productCart in productCartList)
+                {
+                    _DbContext.ProductCarts.Remove(productCart);
+                }
+
+                var productOrderList = _DbContext.ProductOrders.Where(x => x.IdProduct == dbObject.IdProduct).ToList();
+
+                foreach(var productOrder in productOrderList)
+                {
+                    _DbContext.ProductOrders.Remove(productOrder);
+                }
                 _DbContext.Products.Remove(dbObject);
                 _DbContext.SaveChanges();
             }

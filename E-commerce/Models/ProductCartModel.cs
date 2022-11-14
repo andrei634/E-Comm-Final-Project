@@ -5,5 +5,6 @@
         public Guid IdProduct { get; set; }
         public Guid IdCart { get; set; }
         public int Quantity { get; set; }
+        public Guid IdProductCart { get; set; }
     }
 }

@@ -129,8 +129,9 @@ namespace E_commerce.Data
             //        .WithMany(p => p.AspNetUserTokens)
             //        .HasForeignKey(d => d.UserId);
             //});
-            
+
             base.OnModelCreating(modelBuilder);
+
             modelBuilder.Entity<Cart>(entity =>
             {
                 entity.HasKey(e => e.IdCart);
@@ -188,18 +189,20 @@ namespace E_commerce.Data
 
             modelBuilder.Entity<ProductCart>(entity =>
             {
-                entity.HasNoKey();
+                entity.HasKey(e => e.IdProductCart);
 
                 entity.ToTable("ProductCart");
 
+                entity.Property(e => e.IdProductCart).ValueGeneratedNever();
+
                 entity.HasOne(d => d.IdCartNavigation)
-                    .WithMany()
+                    .WithMany(p => p.ProductCarts)
                     .HasForeignKey(d => d.IdCart)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_ProductCart_Cart");
 
                 entity.HasOne(d => d.IdProductNavigation)
-                    .WithMany()
+                    .WithMany(p => p.ProductCarts)
                     .HasForeignKey(d => d.IdProduct)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_ProductCart_Product");
@@ -207,18 +210,22 @@ namespace E_commerce.Data
 
             modelBuilder.Entity<ProductOrder>(entity =>
             {
-                entity.HasNoKey();
+                entity.HasKey(e => e.IdProductOrder);
 
                 entity.ToTable("ProductOrder");
 
+                entity.Property(e => e.IdProductOrder).ValueGeneratedNever();
+
+                entity.Property(e => e.ProductTitle).HasColumnName("Product Title");
+
                 entity.HasOne(d => d.IdOrderNavigation)
-                    .WithMany()
+                    .WithMany(p => p.ProductOrders)
                     .HasForeignKey(d => d.IdOrder)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_ProductOrder_Order_Table");
 
                 entity.HasOne(d => d.IdProductNavigation)
-                    .WithMany()
+                    .WithMany(p => p.ProductOrders)
                     .HasForeignKey(d => d.IdProduct)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_ProductOrder_Product");

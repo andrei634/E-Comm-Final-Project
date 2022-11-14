@@ -45,8 +45,9 @@ namespace E_commerce.Controllers
 
                 if (User.Identity.IsAuthenticated)
                 {
-                    var emailURI = User.FindFirst(ClaimTypes.Email);
-                    var email = emailURI.ToString().Substring(68);
+                    //var emailURI = User.FindFirst(ClaimTypes.Email);
+                    //var email = emailURI.ToString().Substring(68);
+                    var email = User.Identity.Name.ToString();
                     model.EmailAddress = email;
                 }
 

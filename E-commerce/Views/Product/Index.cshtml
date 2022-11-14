@@ -5,69 +5,36 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Index</h1>
-
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            @*<th>
-                @Html.DisplayNameFor(model => model.IdProduct)
-            </th>*@
-            <th>
-                @Html.DisplayNameFor(model => model.Title)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Description)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Price)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Rating)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Image)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Category)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-           @* <td>
-                @Html.DisplayFor(modelItem => item.IdProduct)
-            </td>*@
-            <td>
-                @Html.DisplayFor(modelItem => item.Title)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Description)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Price)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Rating)
-            </td>
-            <td>
-                @*@Html.DisplayFor(modelItem => item.Image)*@
-                <img src=@item.Image>
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Category)
-            </td>
-            <td>
-                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
-            </td>
-        </tr>
+@if(User.IsInRole("Admin"))
+{
+    <div class="margin-left">
+        <p>
+            <a asp-action="Create">Create New</a>
+        </p>
+    </div>
 }
-    </tbody>
-</table>
+
+<div class="products">
+    @foreach(var product in Model)
+    {
+        <div class="container-product">
+            <div class="container-image">
+                <img src=@product.Image alt=@product.Title class="container-image__img" />
+            </div>
+            <div class="container-description">
+                <h3 class="container-description__title">@product.Title</h3>
+                <p class="container-description__price">
+                  <span class="text-decoration">Price:</span>
+                  <span>@product.Price.ToString("c")</span>
+                </p>
+                <p class="container-description__rating">
+                  <span class="text-decoration">Rating:</span>
+                  <span>
+                    @product.Rating &starf;
+                  </span>
+                </p>
+            </div>
+            @Html.ActionLink("Details", "Details", new { id=product.IdProduct }, new { @class="details-product btn btn-primary"})
+        </div>
+    }
+</div>

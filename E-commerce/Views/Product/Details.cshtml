@@ -1,0 +1,116 @@
+﻿@using System.Security.Claims
+@using E_commerce.Controllers
+@inject ProductController ProductController
+@model E_commerce.Models.ProductModel
+
+@{
+    ViewData["Title"] = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container-details">
+  <div class="container__title">
+    <h1 class="container__title--title">@Model.Title</h1>
+    <p class="container__title--code">Cod produs: @Model.IdProduct</p>
+    <hr />
+  </div>
+  <div class="container__main">
+    <div class="container__main__images">
+      <div class="container__main__images__thumbnail">
+        <img
+          src=@Model.Image
+          alt=@Model.Title
+          class="container__main__images__thumbnail--image"
+        />
+      </div>
+    </div>
+    <div class="container__main__description">
+      <div class="container__main__description__category">
+        <p class="container__main__description__category--word text-font-size">
+          Category:
+        </p>
+        <p
+          class="container__main__description__category--product-category text-font-size"
+        >
+          @Model.Category
+        </p>
+      </div>
+      <div class="container__main__description--flex">
+        <p class="text-font-size no-margin">Description:</p>
+        <p class="text-font-size no-margin padding-description">
+          @Model.Description
+        </p>
+      </div>
+    </div>
+    <div class="container__main__ternary">
+      <p class="container__main__ternary--price no-margin">
+        <span class="text-decoration">Price: </span>
+        @Model.Price.ToString("c")
+      </p>
+      <p class="container__main__ternary--rating no-margin">
+          <span class="text-decoration">Rating: @Model.Rating</span>
+                @for(var index = 0; index < Math.Round(@Model.Rating); index++)
+                {
+                    <ion-icon name="star" class="star-icon-similar"></ion-icon>
+                }
+                @for(var index = Math.Round(@Model.Rating); index < 5; index++)
+                {
+                    <ion-icon name="star-outline" class="star-icon-similar"></ion-icon>
+                }
+            </p>
+      <div class="container__main__ternary__button">
+                @if (User.IsInRole("User"))
+                {
+                    @if(ProductController.IsInCart(Model.IdProduct, User.Identity.Name.ToString()))
+                    {
+                        @Html.ActionLink("Remove from cart", "RemoveProductFromCart", new { id = Model.IdProduct }, new { @class="container__main__ternary__button--add-to-cart button-height text-align"})
+                    } 
+                    else
+                    {
+                        @Html.ActionLink("Add to cart", "AddProductInCart", new { id = Model.IdProduct }, new { @class="container__main__ternary__button--remove-from-cart button-height text-align"})
+                    }
+                } else if (User.IsInRole("Admin"))
+                {
+                    <div class="admin-buttons">
+                        @Html.ActionLink("Edit", "Edit", new { id = Model.IdProduct }, new { @class="container__main__ternary__button--remove-from-cart button-height text-align width-50"})
+                        @Html.ActionLink("Detele", "Delete", new { id = Model.IdProduct }, new { @class="container__main__ternary__button--add-to-cart button-height text-align width-50"})
+                    </div>
+                    
+                }
+
+      </div>
+    </div>
+  </div>
+
+  <h1 class="heading-similar-products">Similar products</h1>
+  <div class="container__similar-products">
+        @foreach(var item in ProductController.GetSimilarProducts(Model))
+        {
+            <div class="container-similar">
+              <div class="container-image-similar">
+                <img
+                  src=@item.Image
+                  alt=@item.Title
+                  class="container-image__img-similar"
+                />
+              </div>
+              <div class="container-description-similar">
+                <h3 class="container-description__title-similar">
+                  @item.Title
+                </h3>
+                <p class="container-description__price-similar">
+                  <span class="text-decoration-similar">Price:</span>
+                  <span> @item.Price.ToString("c")</span>
+                </p>
+                <p class="container-description__rating-similar">
+                  <span class="text-decoration-similar">Rating:</span>
+                  <span>
+                    @item.Rating &starf;
+                  </span>
+                </p>
+              </div>
+              @Html.ActionLink("Details", "Details", new { id=item.IdProduct }, new { @class="details-product btn btn-primary"})
+            </div>
+        }
+  </div>
+</div>

@@ -56,6 +56,19 @@ namespace E_commerce.Repository
             return dbObject;
         }
 
+        private Cart MapModelToDBObjectForCart(CartModel model)
+        {
+            var dbObject = new Cart();
+
+            if (model != null)
+            {
+                dbObject.IdCart = model.IdCart;
+                dbObject.IdUser = model.IdUser;
+            }
+
+            return dbObject;
+        }
+
         public List<UserTableModel> GetAllUsers()
         {
             var list = new List<UserTableModel>();
@@ -73,10 +86,25 @@ namespace E_commerce.Repository
             return MapDBObjectToModel(_DbContext.UserTables.FirstOrDefault(x => x.IdUser == id));
         }
 
+        public UserTableModel GetUserByEmail(string email)
+        {
+            return MapDBObjectToModel(_DbContext.UserTables.FirstOrDefault(x => x.EmailAddress == email));
+        }
+
         public void InsertUser(UserTableModel model)
         {
+            var cartModel = new CartModel();
             model.IdUser = Guid.NewGuid();
+            cartModel.IdUser = model.IdUser;
             _DbContext.UserTables.Add(MapModelToDBObject(model));
+            _DbContext.SaveChanges();
+            CreateCartForUser(cartModel);
+        }
+
+        public void CreateCartForUser(CartModel model)
+        {
+            model.IdCart = Guid.NewGuid();
+            _DbContext.Carts.Add(MapModelToDBObjectForCart(model));
             _DbContext.SaveChanges();
         }
 

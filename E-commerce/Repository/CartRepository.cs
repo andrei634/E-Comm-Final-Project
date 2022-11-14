@@ -61,6 +61,11 @@ namespace E_commerce.Repository
             return MapDBObjectToModel(_DbContext.Carts.FirstOrDefault(x => x.IdCart == id));
         }
 
+        public CartModel GetCartByUserId(Guid id)
+        {
+            return MapDBObjectToModel(_DbContext.Carts.FirstOrDefault(x => x.IdUser == id));
+        }
+
         public void InsertCart(CartModel model)
         {
             model.IdCart = Guid.NewGuid();
