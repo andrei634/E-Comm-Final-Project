@@ -26,9 +26,22 @@ namespace E_commerce.Controllers
         }
         [Authorize(Roles = "User, Admin")]
         // GET: ProductController
-        public ActionResult Index()
+        public ActionResult Index(string searchInput, string sortOrder)
         {
-            var productList = _productRepository.GetAllProducts();
+            var productList = _productRepository.GetAllProducts().ToList();
+            if(!String.IsNullOrEmpty(searchInput))
+            {
+                productList = productList.Where(x => x.Title!.Contains(searchInput)).ToList();
+            }
+
+            if(sortOrder == "Ascending")
+            {
+                productList = productList.OrderBy(x => x.Price).ToList();
+            } 
+            else if (sortOrder == "Descending")
+            {
+                productList = productList.OrderByDescending(x => x.Price).ToList();
+            }
             return View(productList);
         }
         [Authorize(Roles = "User, Admin")]

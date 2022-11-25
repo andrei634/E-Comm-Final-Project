@@ -20,7 +20,7 @@
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
+                    <ul class="navbar-nav">
                         <li class="nav-item">
                             <a class="nav-link text-dark color-nav-items" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
@@ -37,6 +37,24 @@
                             </li>
                         }
                     </ul>
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <form asp-controller="Product" asp-action="Index">
+                            <div class="inputs-container">
+                                <div class="inputs-container__drop-down">
+                                  <input
+                                    type="text"
+                                    placeholder="Start a new search"
+                                    class="inputs-container__drop-down__input"
+                                    name="searchInput"
+                                  />
+                                  <button class="inputs-container__drop-down__button-search" type="submit">
+                                    <ion-icon name="search-outline" class="search-icon"></ion-icon>
+                                  </button>
+                                </div>
+                            </div>
+                        </form>
+                    }
                     <partial name="_LoginPartial" />
                 </div>
             </div>
